@@ -32,15 +32,19 @@ public class JsonFormatter {
         public enum ComponentType {
             VALUE,
             LIST,
-            BUNDLE
+            BUNDLE,
+            ARRAY
         }
 
         private class Data {
             ComponentType type;
             String line;
             ArrayList<Component> components;
+            ArrayList<String> values;
+            int depth;
 
-            private Data(ComponentType type) {
+            private Data(ComponentType type, int depth) {
+                this.depth = depth;
                 this.type = type;
                 if (type != ComponentType.VALUE) {
                     components = new ArrayList<Component>();
@@ -53,29 +57,38 @@ public class JsonFormatter {
                 if (type == ComponentType.VALUE) {
                     this.line = line;
                 }
+                if (type == ComponentType.ARRAY) {
+                    values = new ArrayList<String>();
+                }
             }
 
             // only valid to call this function if the type is not value
             // does nothing otherwise
             private void add_component(Component item) {
-                if (type != ComponentType.VALUE) {
+                if ((type == ComponentType.LIST)||(type == ComponentType.BUNDLE)) {
                     components.add(item);
+                }
+            }
+
+            private void add_to_array(String item) {
+                if (type == ComponentType.ARRAY) {
+                    values.add(item);
                 }
             }
         }
 
 
         // constructor for each component in the json file
-        // inputs are the label for the component
-        // and a boolean that signifies whether or not 
-        // the componet will have a list in its data element.
+        // inputs are the label of this component, type of this data tag, and the depth of it.
+        // the type tells you if this is an array, a list, a bundle, or a simple value
+        // Depth value tells you how many tabs should be displayed before this row 
+        // the depth has format implications for value types other than value
         //
-        // you will have to update the component with its desired
-        // data values after creating the component.
-        public Component(String label, ComponentType type) {
-            depth = 0;
+        // you will have to add the data stored in this component after creating the component
+        public Component(String label, ComponentType type, int depth) {
+            this.depth = depth;
             this.label = label;
-            data = new Data(type);
+            data = new Data(type, depth+1);
         }
 
         // way to add the line of data to the data value
