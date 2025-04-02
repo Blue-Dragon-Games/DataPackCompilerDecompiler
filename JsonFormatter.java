@@ -103,6 +103,10 @@ public class JsonFormatter {
             data.add_component(comp);
         }
 
+        public void add_to_array(String value) {
+            data.add_to_array(value);
+        }
+
         @Override
         public String toString() {
             depth++;
