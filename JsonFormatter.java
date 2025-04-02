@@ -29,15 +29,37 @@ public class JsonFormatter {
         Data data;
         int depth;
 
+        public enum ComponentType {
+            VALUE,
+            LIST,
+            BUNDLE
+        }
+
         private class Data {
-            boolean list;
+            ComponentType type;
             String line;
             ArrayList<Component> components;
 
-            private Data(boolean list) {
-                this.list = list;
-                if (list) {
+            private Data(ComponentType type) {
+                this.type = type;
+                if (type != ComponentType.VALUE) {
                     components = new ArrayList<Component>();
+                }
+            }
+
+            // only valid to call this function if the type is value
+            // does nothing otherwise
+            private void update_value(String line) {
+                if (type == ComponentType.VALUE) {
+                    this.line = line;
+                }
+            }
+
+            // only valid to call this function if the type is not value
+            // does nothing otherwise
+            private void add_component(Component item) {
+                if (type != ComponentType.VALUE) {
+                    components.add(item);
                 }
             }
         }
@@ -50,13 +72,22 @@ public class JsonFormatter {
         //
         // you will have to update the component with its desired
         // data values after creating the component.
-        public Component(String label, boolean list) {
+        public Component(String label, ComponentType type) {
             depth = 0;
             this.label = label;
-            data = new Data(list);
+            data = new Data(type);
         }
 
-        public void update_data() {
+        // way to add the line of data to the data value
+        // if the designated componet has the "value" data type
+        public void update_data(String line) {
+            data.update_value(line);
+        }
+
+        // way to add a component to the data value
+        // if the designated componenet is not of the "value" data type
+        public void update_data(Component comp) {
+            data.add_component(comp);
         }
 
         @Override
