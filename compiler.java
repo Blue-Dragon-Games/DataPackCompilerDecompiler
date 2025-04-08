@@ -1,18 +1,51 @@
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class compiler {
     public static void main(String[] args) {
+        make_mcmeta("A crafting Tweaks Data Pack", 61, null);
+        /*JsonFormatter tester = new JsonFormatter();
+        //JsonFormatter.Component test1 = tester.get_component("\"Pack\"",JsonFormatter.Component.ComponentType.VALUE,1);
+        //test1.update_data("Item");
+        //tester.add_component(test1);
+        JsonFormatter.Component pack = tester.get_component("\"pack\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
+        JsonFormatter.Component description = tester.get_component("\"description\"",JsonFormatter.Component.ComponentType.VALUE,2);
+        JsonFormatter.Component pack_format = tester.get_component("\"pack_format\"",JsonFormatter.Component.ComponentType.VALUE,2);
+        JsonFormatter.Component supported_formats = tester.get_component("\"supported_formats\"",JsonFormatter.Component.ComponentType.VALUE,2);
+        
+        description.update_data("\"test\""); 
+        pack_format.update_data("61");
+        supported_formats.update_data("[61, 71]");
+
+        pack.update_data(description);
+        pack.update_data(pack_format);
+        pack.update_data(supported_formats);
+        tester.add_component(pack);
+        tester.make_json_file("pack.mcmeta");*/
+        /* 
         int[] list = {61, 71};
-        try (FileWriter fw = new FileWriter("pack.mcmeta")) {
+        try (FileWriter fw = new FileWriter("test.mcmeta")) {
             fw.write(get_mcmeta("", 61, list));
         } catch (IOException e) {
             System.err.println("Error writing to file using FileWriter: " + e.getMessage());
-        }
+        } */
     }
 
 
-    private static String get_mcmeta(String description, int format, int[] supported_formats) {
+    private static void make_mcmeta(String desc, int format, int[] supported_format) {
+        JsonFormatter tester = new JsonFormatter();
+        JsonFormatter.Component pack = tester.get_component("\"pack\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
+        JsonFormatter.Component description = tester.get_component("\"description\"",JsonFormatter.Component.ComponentType.VALUE,2);
+        JsonFormatter.Component pack_format = tester.get_component("\"pack_format\"",JsonFormatter.Component.ComponentType.VALUE,2);
+        JsonFormatter.Component supported_formats = tester.get_component("\"supported_formats\"",JsonFormatter.Component.ComponentType.VALUE,2);
+        
+        description.update_data("\""+desc+"\""); 
+        pack_format.update_data(Integer.toString(format));
+        supported_formats.update_data("[61, 71]");
+
+        pack.update_data(description);
+        pack.update_data(pack_format);
+        pack.update_data(supported_formats);
+        tester.add_component(pack);
+        tester.make_json_file("pack.mcmeta");
+        /* 
         String formats = "[" + supported_formats[0];
         for (int i = 1; i< supported_formats.length; i++) {
             formats = formats + ", " + supported_formats[i];
@@ -26,5 +59,6 @@ public class compiler {
             "    \"supported_formats\": "+formats+"\n" + //
             "  }\n" + //
             "}";
+        */
     }
 }

@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 public class JsonFormatter {
 
-    Component[] list;
+    ArrayList<Component> list;
+
+    public JsonFormatter() {
+        list = new ArrayList<Component>();
+    }
 
     public String get_json() {
         String json = "{\n";
@@ -22,6 +26,14 @@ public class JsonFormatter {
         } catch (IOException e) {
             System.err.println("Error writing to file using FileWriter: " + e.getMessage());
         }
+    }
+
+    public Component get_component(String label, Component.ComponentType type, int depth) {
+        return new Component(label, type, depth);
+    }
+
+    public void add_component(Component comp) {
+        list.add(comp);
     }
 
     public class Component {
@@ -75,6 +87,28 @@ public class JsonFormatter {
                     values.add(item);
                 }
             }
+
+            @Override 
+            public String toString() {
+                if (type == ComponentType.VALUE) {
+                    return line;
+                } else if (type == ComponentType.BUNDLE) {
+                    String tab_pad = "";
+                    //System.out.println(depth);
+                    for (int i = 0; i < depth; i++) {
+                        tab_pad += "\t";
+                    }
+                    String val = "{\n";
+                    for (Component item : components) {
+                        val += tab_pad + item.toString();
+                        //System.out.println(val);
+                    }
+                    val += "end";
+                    val = val.replace(",\nend", "\n"+tab_pad+"}");
+                    return val;
+                }
+                return null;
+            }
         }
 
 
@@ -110,7 +144,7 @@ public class JsonFormatter {
         @Override
         public String toString() {
             depth++;
-            String val = label+":" + data.toString()+",";
+            String val = label + " : " + data.toString()+",\n";
             depth--;
             return val;
         }
