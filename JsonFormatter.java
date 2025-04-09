@@ -82,6 +82,8 @@ public class JsonFormatter {
                 }
             }
 
+            // only valid to call this function if the type is Array
+            // does nothing otherwise.
             private void add_to_array(String item) {
                 if (type == ComponentType.ARRAY) {
                     values.add(item);
