@@ -125,6 +125,7 @@ public class JsonFormatter {
                     for (Component item : components) {
                         val.append(tab_pad).append("{\n");
                         val.append(tab_pad).append(item);
+                        val.delete(val.length()-2, val.length()-1);
                         val.append(tab_pad).append("},\n");
                     }
                     val.append("end");
