@@ -1,3 +1,4 @@
+// just a class thats a string tuple, made making the shaped crafting easier.
 public class STuple {
 
     String element1;
