@@ -1,17 +1,18 @@
-
+import java.io.File;
 
 public class compiler {
     public static void main(String[] args) {
         int[] supported_formats = {61, 71};
-        make_mcmeta("A crafting Tweaks Data Pack", 61, supported_formats);
+        ensure_output_dir_exists("output");
+        make_mcmeta("output","A crafting Tweaks Data Pack", 61, supported_formats);
 
-        String shape[] = {"123","123","123"};  
-        STuple keys0 = new STuple("1", "diamond"); 
+        String shape[] = {"123","123","123"};
+        STuple keys0 = new STuple("1", "diamond");
         STuple keys1 = new STuple("2", "kelp");
         STuple keys2 = new STuple("3", "gunpowder");
         STuple[] keys = {keys0, keys1, keys2};
 
-        RecipeGen.make_shaped("","testshaped.json", shape, keys,"diamond",64);
+        RecipeGen.make_shaped("output", "crafting" ,"testshaped.json", shape, keys,"diamond", 64);
 
         /*RecipeGen.make_stonecutter_rec("", "test", "input", "output", 1);
         
@@ -44,11 +45,21 @@ public class compiler {
         } */
     }
 
+    private static void ensure_output_dir_exists(String output_dir_name) {
+        try{
+            if(!(new File(output_dir_name).mkdirs())) {
+                System.out.println("Failed to create output directory \"" + output_dir_name +"\"!");
+            }
+        } catch (SecurityException e) {
+            System.out.println("Could not create output directory \"" + output_dir_name +"\"!\n" + e.getLocalizedMessage());
+        }
+    }
+
 
     // takes in the description (as a string), format (as an int), and supported format (as an int array)
     // then generates the mcmeta file for the pack.
     // TODO: make path creation dynamic
-    private static void make_mcmeta(String desc, int format, int[] supported_format) {
+    private static void make_mcmeta(String path, String desc, int format, int[] supported_format) {
         JsonFormatter tester = new JsonFormatter();
         JsonFormatter.Component pack = tester.get_component("\"pack\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
         JsonFormatter.Component description = tester.get_component("\"description\"", JsonFormatter.Component.ComponentType.VALUE, 2);
@@ -73,7 +84,7 @@ public class compiler {
         pack.update_data(pack_format);
         pack.update_data(supported_formats);
         tester.add_component(pack);
-        tester.make_json_file("pack.mcmeta");
+        tester.make_json_file(path + "/pack.mcmeta");
         /* 
         String formats = "[" + supported_formats[0];
         for (int i = 1; i< supported_formats.length; i++) {

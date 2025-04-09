@@ -1,10 +1,13 @@
 /// /////////////////////////////////////////////////////////////////////
 /// Class that holds the functions to automatically generate recipes ///
 /// /////////////////////////////////////////////////////////////////////
+
+import java.io.File;
+
 public class RecipeGen {
 
     // used to autogenerate shaped recipes
-    public static void make_shaped(String path, String name, String shape_raw[], STuple key_raw[], String output, int quant) {
+    public static void make_shaped(String path, String namespace, String name, String shape_raw[], STuple key_raw[], String output, int quant) {
         JsonFormatter maker = new JsonFormatter();
         
         // creating the type such that it is a shapeless crafting recipe
@@ -41,13 +44,15 @@ public class RecipeGen {
 
         maker.add_component(result);
 
-        maker.make_json_file(path + name.toLowerCase());
+        String dir = path + "/data/" + namespace + "/recipe/";
+        new File(dir).mkdirs();
+        maker.make_json_file(dir + name.toLowerCase());
 
     }
 
 
     // used to autogenerate a shapeless crafting recipe
-    public static void make_shapeless(String path, String name, String inputs[], String output, int quant) {
+    public static void make_shapeless(String path, String namespace, String name, String inputs[], String output, int quant) {
         JsonFormatter maker = new JsonFormatter();
 
         // creating the type such that it is a shapeless crafting recipe
@@ -75,8 +80,9 @@ public class RecipeGen {
 
         maker.add_component(result);
 
-        maker.make_json_file(path + name.toLowerCase());
-
+        String dir = path + "/data/" + namespace + "/recipe/";
+        new File(dir).mkdirs();
+        maker.make_json_file(dir + name.toLowerCase());
     }
 
     // used to autogenerate a stonecutter recipe
