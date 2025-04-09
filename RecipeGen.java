@@ -2,34 +2,61 @@
 /// Class that holds the functions to automatically generate recipes ///
 /// /////////////////////////////////////////////////////////////////////
 public class RecipeGen {
+    public static void make_shaped(String path, String name, String shape_raw[], STuple key_raw[], String output, int quant) {
+        JsonFormatter maker = new JsonFormatter();
+        
+        // creating the type such that it is a shapeless crafting recipe
+        JsonFormatter.Component type = maker.get_component("\"type\"", JsonFormatter.Component.ComponentType.VALUE, 1);
+        type.update_data("\"minecraft:crafting_shaped\"");
+        maker.add_component(type);
+
+        // create the pattern that the crafting recipe uses
+        JsonFormatter.Component shape = maker.get_component("\"pattern\"", JsonFormatter.Component.ComponentType.ARRAY, 1);
+        for (int i = 0; ((i<3)&&(i<shape_raw.length)); i++) {
+            shape.add_to_array("\"" + shape_raw[i] + "\"");
+        }
+        maker.add_component(shape);
+
+        // create the key that the pattern uses
+        JsonFormatter.Component key = maker.get_component("\"key\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
+        for (int i = 0; ((i<9)&&(i<key_raw.length)); i++) {
+            JsonFormatter.Component curr = maker.get_component("\""+key_raw[i].get_first()+"\"", JsonFormatter.Component.ComponentType.VALUE, 2);
+            curr.update_data("\"minecraft:" + key_raw[i].get_second() +"\"");
+            key.update_data(curr);
+        }
+        maker.add_component(key);
+
+        // creating the result
+        JsonFormatter.Component result = maker.get_component("\"result\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
+        JsonFormatter.Component id = maker.get_component("\"id\"", JsonFormatter.Component.ComponentType.VALUE, 2);
+        JsonFormatter.Component count = maker.get_component("\"count\"", JsonFormatter.Component.ComponentType.VALUE, 2);
+
+        id.update_data("\"minecraft:" + output + "\"");
+        count.update_data(Integer.toString(quant));
+
+        result.update_data(id);
+        result.update_data(count);
+
+        maker.add_component(result);
+
+        maker.make_json_file(path + name.toLowerCase());
+
+    }
+
+
     // used to autogenerate a shapeless crafting recipe
     public static void make_shapeless(String path, String name, String inputs[], String output, int quant) {
         JsonFormatter maker = new JsonFormatter();
 
-        // creating the type such that it is a stone cutter recipe
+        // creating the type such that it is a shapeless crafting recipe
         JsonFormatter.Component type = maker.get_component("\"type\"", JsonFormatter.Component.ComponentType.VALUE, 1);
-        type.update_data(" \"crafting_shapeless\"");
+        type.update_data("\"minecraft:crafting_shapeless\"");
         maker.add_component(type);
 
-        // creating the ingredient
-        //TODO: this has to be a proper list, and need to figure out how this sort of recipe works
-
-
-        /* valid format:
-{
-    "type": "crafting_shapeless",
-    "ingredients": [
-      "minecraft:gunpowder", "minecraft:diamond", "minecraft:diamond", "minecraft:diamond"
-    ],
-    "result": {
-      "id": "minecraft:diamond",
-      "count": 3
-    }
-  }
-         */
+        // decompose ingredients to correct format
         JsonFormatter.Component ingredient = maker.get_component("\"ingredients\"", JsonFormatter.Component.ComponentType.ARRAY, 1);
         for (int i = 0; ((i<9)&&(i<inputs.length)); i++) {
-            ingredient.add_to_array(" \"minecraft:" + inputs[i] + "\"");
+            ingredient.add_to_array("\"minecraft:" + inputs[i] + "\"");
         }
         maker.add_component(ingredient);
 
@@ -56,12 +83,12 @@ public class RecipeGen {
 
         // creating the type such that it is a stone cutter recipe
         JsonFormatter.Component type = maker.get_component("\"type\"", JsonFormatter.Component.ComponentType.VALUE, 1);
-        type.update_data(" \"minecraft:stonecutting\"");
+        type.update_data("\"minecraft:stonecutting\"");
         maker.add_component(type);
 
         // creating the ingredient
         JsonFormatter.Component ingredient = maker.get_component("\"ingredient\"", JsonFormatter.Component.ComponentType.VALUE, 1);
-        ingredient.update_data(" \"minecraft:" + input + "\"");
+        ingredient.update_data("\"minecraft:" + input + "\"");
         maker.add_component(ingredient);
 
         // creating the result

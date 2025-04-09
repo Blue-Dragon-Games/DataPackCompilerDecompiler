@@ -1,9 +1,19 @@
+
+
 public class compiler {
     public static void main(String[] args) {
         int[] supported_formats = {61, 71};
         make_mcmeta("A crafting Tweaks Data Pack", 61, supported_formats);
 
-        RecipeGen.make_stonecutter_rec("", "test", "input", "output", 1);
+        String shape[] = {"123","123","123"};  
+        STuple keys0 = new STuple("1", "diamond"); 
+        STuple keys1 = new STuple("2", "kelp");
+        STuple keys2 = new STuple("3", "gunpowder");
+        STuple[] keys = {keys0, keys1, keys2};
+
+        RecipeGen.make_shaped("","testshaped.json", shape, keys,"diamond",64);
+
+        /*RecipeGen.make_stonecutter_rec("", "test", "input", "output", 1);
         
         String testing[] = {"diamond", "diamond", "diamond"};
         RecipeGen.make_shapeless("", "SevenSS.json", testing, "kelp", 1);
