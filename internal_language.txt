@@ -1,0 +1,34 @@
+############################
+### wild card characters ###
+############################
+
+% - is the first wild card character that should be used
+^ - secondary wild card character
+& - tertiary wild card character
+
+* - denotes a wild card character where you want more than one file to be able to be in this place
+
+~ - is used when a wild card of crafting type needs to be present
+
+##########################
+### character meanings ###
+##########################
+! - ignore element from wild card list (can either be numbered or a strict string match)
+@ - ignore until certain element (can either be numbered or a strict string match)
+/ - comment 
+: - major delimeter (between different sections)
+, - minor delimeter (used if a list of items needs to go to the same section)
+
+
+######################
+### Line Structure ###
+######################
+Generic Form:
+~:%:^:&
+~ - corresponds to the recipe type
+% - corresponds to the ingredients
+^ - corresponds to the output quantity 
+& - corresponds to the output item
+
+Campfire Cooking:Ingredient:Result:(optional) time
+
