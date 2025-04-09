@@ -118,8 +118,18 @@ public class JsonFormatter {
                     val = new StringBuilder(val.toString().replace(",\nend", "\n" + tab_pad + "]"));
                     return val.toString();
                 } else if (type == ComponentType.LIST) {
-                    //TODO: this uses components in the list rather than the array with stores a list of arrays.
-                    return null;
+                    //TODO: Test this
+                    StringBuilder tab_pad = new StringBuilder();
+                    tab_pad.append("\t".repeat(Math.max(0, depth)));
+                    StringBuilder val = new StringBuilder("[\n");
+                    for (Component item : components) {
+                        val.append(tab_pad).append("{\n");
+                        val.append(tab_pad).append(item);
+                        val.append(tab_pad).append("},\n");
+                    }
+                    val.append("end");
+                    val = new StringBuilder(val.toString().replace(",\nend", "\n" + tab_pad + "]"));
+                    return val.toString(); 
                 }
                 return null;
             }
