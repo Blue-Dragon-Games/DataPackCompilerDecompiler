@@ -1,6 +1,9 @@
 public class compiler {
     public static void main(String[] args) {
-        make_mcmeta("A crafting Tweaks Data Pack", 61, null);
+        int supported_formats[] = {61, 71};
+        make_mcmeta("A crafting Tweaks Data Pack", 61, supported_formats);
+
+        RecipeGen.make_stonecutter_rec("","","input", "output",1);
         /*JsonFormatter tester = new JsonFormatter();
         //JsonFormatter.Component test1 = tester.get_component("\"Pack\"",JsonFormatter.Component.ComponentType.VALUE,1);
         //test1.update_data("Item");
@@ -29,6 +32,9 @@ public class compiler {
     }
 
 
+    // takes in the description (as a string), format (as an int), and supported format (as an int array)
+    // then generates the mcmeta file for the pack.
+    // TODO: make path creation dynamic
     private static void make_mcmeta(String desc, int format, int[] supported_format) {
         JsonFormatter tester = new JsonFormatter();
         JsonFormatter.Component pack = tester.get_component("\"pack\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
@@ -38,6 +44,14 @@ public class compiler {
         
         description.update_data("\""+desc+"\""); 
         pack_format.update_data(Integer.toString(format));
+
+        String formats = "[";
+        for (int i : supported_format) {
+            formats += Integer.toString(i) + ",";
+        }
+        formats += "/";
+        formats.replace(",/", "]");
+
         supported_formats.update_data("[61, 71]");
 
         pack.update_data(description);
