@@ -67,7 +67,7 @@ public class compiler {
         formats.append("/");
         formats = new StringBuilder(formats.toString().replace(",/", "]"));
 
-        supported_formats.update_data("[61, 71]");
+        supported_formats.update_data(formats.toString());
 
         pack.update_data(description);
         pack.update_data(pack_format);
