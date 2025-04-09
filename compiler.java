@@ -1,9 +1,9 @@
 public class compiler {
     public static void main(String[] args) {
-        int supported_formats[] = {61, 71};
+        int[] supported_formats = {61, 71};
         make_mcmeta("A crafting Tweaks Data Pack", 61, supported_formats);
 
-        RecipeGen.make_stonecutter_rec("","","input", "output",1);
+        RecipeGen.make_stonecutter_rec("", "", "input", "output", 1);
         /*JsonFormatter tester = new JsonFormatter();
         //JsonFormatter.Component test1 = tester.get_component("\"Pack\"",JsonFormatter.Component.ComponentType.VALUE,1);
         //test1.update_data("Item");
@@ -38,19 +38,21 @@ public class compiler {
     private static void make_mcmeta(String desc, int format, int[] supported_format) {
         JsonFormatter tester = new JsonFormatter();
         JsonFormatter.Component pack = tester.get_component("\"pack\"", JsonFormatter.Component.ComponentType.BUNDLE, 1);
-        JsonFormatter.Component description = tester.get_component("\"description\"",JsonFormatter.Component.ComponentType.VALUE,2);
-        JsonFormatter.Component pack_format = tester.get_component("\"pack_format\"",JsonFormatter.Component.ComponentType.VALUE,2);
-        JsonFormatter.Component supported_formats = tester.get_component("\"supported_formats\"",JsonFormatter.Component.ComponentType.VALUE,2);
-        
-        description.update_data("\""+desc+"\""); 
+        JsonFormatter.Component description = tester.get_component("\"description\"", JsonFormatter.Component.ComponentType.VALUE, 2);
+        JsonFormatter.Component pack_format = tester.get_component("\"pack_format\"", JsonFormatter.Component.ComponentType.VALUE, 2);
+        JsonFormatter.Component supported_formats = tester.get_component("\"supported_formats\"", JsonFormatter.Component.ComponentType.VALUE, 2);
+
+        description.update_data("\"" + desc + "\"");
         pack_format.update_data(Integer.toString(format));
 
-        String formats = "[";
+
+        // What's this for now? Any code using this variable has been commented out, but that may just be for testing.
+        StringBuilder formats = new StringBuilder("[");
         for (int i : supported_format) {
-            formats += Integer.toString(i) + ",";
+            formats.append(i).append(",");
         }
-        formats += "/";
-        formats.replace(",/", "]");
+        formats.append("/");
+        formats = new StringBuilder(formats.toString().replace(",/", "]"));
 
         supported_formats.update_data("[61, 71]");
 

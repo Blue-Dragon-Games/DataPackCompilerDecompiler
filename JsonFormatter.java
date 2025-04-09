@@ -11,13 +11,13 @@ public class JsonFormatter {
     }
 
     public String get_json() {
-        String json = "{\n";
+        StringBuilder json = new StringBuilder("{\n");
         for (Component item : this.list) {
-            json += "\t"+item.toString();
+            json.append("\t").append(item.toString());
         }
-        json += "end}";
-        json = json.replace(",\nend}", "\n}");
-        return json;
+        json.append("end}");
+        json = new StringBuilder(json.toString().replace(",\nend}", "\n}"));
+        return json.toString();
     }
 
     public void make_json_file(String path) {
@@ -77,7 +77,7 @@ public class JsonFormatter {
             // only valid to call this function if the type is not value
             // does nothing otherwise
             private void add_component(Component item) {
-                if ((type == ComponentType.LIST)||(type == ComponentType.BUNDLE)) {
+                if ((type == ComponentType.LIST) || (type == ComponentType.BUNDLE)) {
                     components.add(item);
                 }
             }
@@ -90,27 +90,30 @@ public class JsonFormatter {
                 }
             }
 
-            @Override 
+            @Override
             public String toString() {
                 if (type == ComponentType.VALUE) {
                     return line;
                 } else if (type == ComponentType.BUNDLE) {
-                    String tab_pad = "";
-                    //System.out.println(depth);
-                    for (int i = 0; i < depth; i++) {
-                        tab_pad += "\t";
+                    StringBuilder tab_pad = new StringBuilder();
+                    tab_pad.append("\t".repeat(Math.max(0, depth)));
+                    StringBuilder val = new StringBuilder("{\n");
+                    for (String item : values) {
+                        val.append(tab_pad).append(item);
                     }
-                    String val = "{\n";
-                    for (Component item : components) {
-                        val += tab_pad + item.toString();
-                        //System.out.println(val);
-                    }
-                    val += "end";
-                    val = val.replace(",\nend", "\n"+tab_pad+"}");
-                    return val;
+                    val.append("end");
+                    val = new StringBuilder(val.toString().replace(",\nend", "\n" + tab_pad + "}"));
+                    return val.toString();
                 } else if (type == ComponentType.ARRAY) {
-                    //TODO: this
-                    return null;
+                    StringBuilder tab_pad = new StringBuilder();
+                    tab_pad.append("\t".repeat(Math.max(0, depth)));
+                    StringBuilder val = new StringBuilder("[\n");
+                    for (Component item : components) {
+                        val.append(tab_pad).append(item.toString());
+                    }
+                    val.append("end");
+                    val = new StringBuilder(val.toString().replace(",\nend", "\n" + tab_pad + "]"));
+                    return val.toString();
                 } else if (type == ComponentType.LIST) {
                     //TODO: this, i have no clue how this is different than the array.
                     return null;
@@ -130,7 +133,7 @@ public class JsonFormatter {
         public Component(String label, ComponentType type, int depth) {
             this.depth = depth;
             this.label = label;
-            data = new Data(type, depth+1);
+            data = new Data(type, depth + 1);
         }
 
         // way to add the line of data to the data value
@@ -152,7 +155,7 @@ public class JsonFormatter {
         @Override
         public String toString() {
             depth++;
-            String val = label + " : " + data.toString()+",\n";
+            String val = label + " : " + data.toString() + ",\n";
             depth--;
             return val;
         }
