@@ -3,7 +3,10 @@ public class compiler {
         int[] supported_formats = {61, 71};
         make_mcmeta("A crafting Tweaks Data Pack", 61, supported_formats);
 
-        RecipeGen.make_stonecutter_rec("", "", "input", "output", 1);
+        RecipeGen.make_stonecutter_rec("", "test", "input", "output", 1);
+        
+        String testing[] = {"diamond", "diamond", "diamond"};
+        RecipeGen.make_shapeless("", "testShape5.json", testing, "kelp", 1);
         /*JsonFormatter tester = new JsonFormatter();
         //JsonFormatter.Component test1 = tester.get_component("\"Pack\"",JsonFormatter.Component.ComponentType.VALUE,1);
         //test1.update_data("Item");

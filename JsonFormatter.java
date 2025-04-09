@@ -58,8 +58,11 @@ public class JsonFormatter {
             private Data(ComponentType type, int depth) {
                 this.depth = depth;
                 this.type = type;
-                if (type != ComponentType.VALUE) {
+                if ((type != ComponentType.VALUE)&&(type!=ComponentType.ARRAY)) {
                     components = new ArrayList<Component>();
+                }
+                if (type == ComponentType.ARRAY) {
+                    values = new ArrayList<String>();
                 }
             }
 
@@ -98,7 +101,7 @@ public class JsonFormatter {
                     StringBuilder tab_pad = new StringBuilder();
                     tab_pad.append("\t".repeat(Math.max(0, depth)));
                     StringBuilder val = new StringBuilder("{\n");
-                    for (String item : values) {
+                    for (Component item : components) {
                         val.append(tab_pad).append(item);
                     }
                     val.append("end");
@@ -108,14 +111,14 @@ public class JsonFormatter {
                     StringBuilder tab_pad = new StringBuilder();
                     tab_pad.append("\t".repeat(Math.max(0, depth)));
                     StringBuilder val = new StringBuilder("[\n");
-                    for (Component item : components) {
-                        val.append(tab_pad).append(item.toString());
+                    for (String item : values) {
+                        val.append(tab_pad).append(item).append(",\n");
                     }
                     val.append("end");
                     val = new StringBuilder(val.toString().replace(",\nend", "\n" + tab_pad + "]"));
                     return val.toString();
                 } else if (type == ComponentType.LIST) {
-                    //TODO: this, i have no clue how this is different than the array.
+                    //TODO: this uses components in the list rather than the array with stores a list of arrays.
                     return null;
                 }
                 return null;
