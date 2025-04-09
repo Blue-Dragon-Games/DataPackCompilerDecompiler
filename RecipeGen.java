@@ -28,7 +28,7 @@ public class RecipeGen {
 
         maker.add_component(result);
 
-        maker.make_json_file("test.json");
+        maker.make_json_file(path+name);
     }
 
     /*  This function is now deprecated, updated version has been created.
