@@ -118,7 +118,6 @@ public class JsonFormatter {
                     val = new StringBuilder(val.toString().replace(",\nend", "\n" + tab_pad + "]"));
                     return val.toString();
                 } else if (type == ComponentType.LIST) {
-                    //TODO: Test this
                     StringBuilder tab_pad = new StringBuilder();
                     tab_pad.append("\t".repeat(Math.max(0, depth)));
                     StringBuilder val = new StringBuilder("[\n");
