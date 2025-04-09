@@ -2,6 +2,8 @@
 /// Class that holds the functions to automatically generate recipes ///
 /// /////////////////////////////////////////////////////////////////////
 public class RecipeGen {
+
+    // used to autogenerate shaped recipes
     public static void make_shaped(String path, String name, String shape_raw[], STuple key_raw[], String output, int quant) {
         JsonFormatter maker = new JsonFormatter();
         
