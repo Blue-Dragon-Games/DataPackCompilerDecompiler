@@ -6,7 +6,7 @@ public class compiler {
         RecipeGen.make_stonecutter_rec("", "test", "input", "output", 1);
         
         String testing[] = {"diamond", "diamond", "diamond"};
-        RecipeGen.make_shapeless("", "testShape5.json", testing, "kelp", 1);
+        RecipeGen.make_shapeless("", "SevenSS.json", testing, "kelp", 1);
         /*JsonFormatter tester = new JsonFormatter();
         //JsonFormatter.Component test1 = tester.get_component("\"Pack\"",JsonFormatter.Component.ComponentType.VALUE,1);
         //test1.update_data("Item");
