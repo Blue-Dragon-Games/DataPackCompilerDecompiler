@@ -106,6 +106,12 @@ public class JsonFormatter {
                     val += "end";
                     val = val.replace(",\nend", "\n"+tab_pad+"}");
                     return val;
+                } else if (type == ComponentType.ARRAY) {
+                    //TODO: this
+                    return null;
+                } else if (type == ComponentType.LIST) {
+                    //TODO: this, i have no clue how this is different than the array.
+                    return null;
                 }
                 return null;
             }
