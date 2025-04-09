@@ -46,7 +46,7 @@ public class RecipeGen {
 
         maker.add_component(result);
 
-        maker.make_json_file(path + name);
+        maker.make_json_file((path + name).toLowerCase());
 
     }
 
@@ -77,7 +77,7 @@ public class RecipeGen {
 
         maker.add_component(result);
 
-        maker.make_json_file(path + name);
+        maker.make_json_file((path + name).toLowerCase());
     }
 
     /*  This function is now deprecated, updated version has been created.
