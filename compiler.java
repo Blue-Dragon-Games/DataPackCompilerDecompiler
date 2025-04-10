@@ -6,13 +6,21 @@ public class compiler {
         ensure_output_dir_exists("output");
         make_mcmeta("output","A crafting Tweaks Data Pack", 61, supported_formats);
 
-        String shape[] = {"123","123","123"};
+        QuickGen.overdye("output");
+        String list[] = {"sugar", "rotten_flesh"};
+        String ame[] = {"amethyst_block"};
+        String qtz[] = {"quartz_block"};
+        RecipeGen.make_dye_recipe("output", "craftingtweak", "rottenfleshtoleather.json", list, "leather", 4);
+        RecipeGen.make_shapeless("output", "craftingtweak", "amethyst.json", ame, "amethyst_shard", 4);
+        RecipeGen.make_shapeless("output", "craftingtweak", "quartz.json", qtz, "quartz", 4);
+
+        /*String shape[] = {"123","123","123"};
         STuple keys0 = new STuple("1", "diamond");
         STuple keys1 = new STuple("2", "kelp");
         STuple keys2 = new STuple("3", "gunpowder");
         STuple[] keys = {keys0, keys1, keys2};
 
-        RecipeGen.make_shaped("output", "crafting" ,"testshaped.json", shape, keys,"diamond", 64);
+        RecipeGen.make_shaped("output", "crafting" ,"testshaped.json", shape, keys,"diamond", 64);*/
 
         /*RecipeGen.make_stonecutter_rec("", "test", "input", "output", 1);
         

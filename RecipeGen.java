@@ -50,6 +50,16 @@ public class RecipeGen {
 
     }
 
+    // used to create a shaped recipe that is one item surrounded by another item
+    // first input of the inputs array is the center item, second is the surrounding item
+    public static void make_dye_recipe(String path, String namespace, String name, String inputs[], String output, int quant) {
+        String pattern[] = {"222", "212", "222"};
+        STuple keys0 = new STuple("1", inputs[0]);
+        STuple keys1 = new STuple("2", inputs[1]);
+        STuple[] keys = {keys0, keys1};
+        make_shaped(path, namespace, name, pattern, keys, output, quant);
+    }
+
 
     // used to autogenerate a shapeless crafting recipe
     public static void make_shapeless(String path, String namespace, String name, String inputs[], String output, int quant) {
